@@ -9,11 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import the.semicolon.userservice.client.api.AuthenticationApi;
 
 
 @RestController
 @RequestMapping("api/authentication")
-public class AuthenticationController {
+public class AuthenticationController implements AuthenticationApi {
     private AuthenticationService authenticationService;
 
     @Autowired
