@@ -234,7 +234,8 @@ components:
         name:
           type: string
         price:
-          type: string
+          type: number
+          format: int64
         description:
           type: string
         quantity:
@@ -253,7 +254,8 @@ components:
         name:
           type: string
         price:
-          type: string
+          type: number
+          format: int64
         description:
           type: string
         quantity:
@@ -282,7 +284,8 @@ components:
         name:
           type: string
         price:
-          type: string
+          type: number
+          format: int64
         description:
           type: string
         quantity:
