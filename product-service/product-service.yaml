@@ -293,6 +293,9 @@ components:
           type: integer
     ListProductResponse:
       type: array
+      properties:
+        length:
+          type: integer
       items:
         $ref: '#/components/schemas/ProductDetailResponse'
     ErrorResponse:
