@@ -162,15 +162,27 @@ paths:
         - name: name
           in: query
           required: true
+          schema:
+            type: string
+            default: ""
         - name: isAscPrice
           in: query
           required: true
+          schema:
+            type: boolean
+            default: null
         - name: isAscQuantity
           in: query
           required: true
+          schema:
+            type: boolean
+            default: null
         - name: isAscCreatedDate
           in: query
           required: true
+          schema:
+            type: boolean
+            default: null
       responses:
         '200':
           description: success
