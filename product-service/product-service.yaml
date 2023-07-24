@@ -161,12 +161,16 @@ paths:
       parameters:
         - name: name
           in: query
+          required: true
         - name: isAscPrice
           in: query
+          required: true
         - name: isAscQuantity
           in: query
+          required: true
         - name: isAscCreatedDate
           in: query
+          required: true
       responses:
         '200':
           description: success

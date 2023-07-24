@@ -99,14 +99,14 @@
                 <version>6.6.0</version>
                 <executions>
                     <execution>
-                        <id>remote</id>
+                        <id>productservice</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
                             <inputSpec>
-                                https://raw.githubusercontent.com/cuonghd97/ms-in-my-mind/main/user-service/user-service.yaml
+                                https://raw.githubusercontent.com/cuonghd97/ms-in-my-mind/main/product-service/product-service.yaml
                             </inputSpec>
                             <generatorName>spring</generatorName>
                             <configOptions>
@@ -118,9 +118,9 @@
 
                             <library>spring-boot</library>
                             <output>${project.build.directory}/generated-sources/remote-openapi</output>
-                            <apiPackage>the.semicolon.userservice.client.api</apiPackage>
-                            <modelPackage>the.semicolon.userservice.client.model</modelPackage>
-                            <invokerPackage>the.semicolon.userservice.client</invokerPackage>
+                            <apiPackage>the.semicolon.productservice.server.api</apiPackage>
+                            <modelPackage>the.semicolon.productservice.server.model</modelPackage>
+                            <invokerPackage>the.semicolon.productservice.server</invokerPackage>
                         </configuration>
                     </execution>
                 </executions>
