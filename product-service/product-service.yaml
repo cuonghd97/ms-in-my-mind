@@ -53,6 +53,9 @@ paths:
         - name: productId
           in: path
           required: true
+          schema:
+            type: string
+            default: ""
       responses:
         '200':
           description: success
@@ -87,6 +90,9 @@ paths:
         - name: productId
           in: path
           required: true
+          schema:
+            type: string
+            default: ""
       requestBody:
         required: true
         content:
@@ -127,6 +133,9 @@ paths:
         - name: productId
           in: path
           required: true
+          schema:
+            type: string
+            default: ""
       responses:
         '200':
           description: success
