@@ -1,0 +1,274 @@
+openapi: 3.0.3
+info:
+  title: Product Service
+  description: Product Service
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  /product:
+    post:
+      summary: Create product
+      operationId: createProduct
+      tags:
+        - Product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProductResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /product/{productId}:
+    get:
+      summary: Get product detail
+      operationId: getProductDetail
+      tags:
+        - Product
+      parameters:
+        - name: productId
+          in: path
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetailResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update product
+      operationId: updateProduct
+      tags:
+        - Product
+      parameters:
+        - name: productId
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductRequest'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateProductResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete product
+      operationId: deleteProduct
+      tags:
+        - Product
+      parameters:
+        - name: productId
+          in: path
+          required: true
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteProductResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /list-product:
+    get:
+      summary: Get list product
+      operationId: getListProduct
+      tags:
+        - Product
+      parameters:
+        - name: name
+          in: query
+        - name: isAscPrice
+          in: query
+        - name: isAscQuantity
+          in: query
+        - name: isAscCreatedDate
+          in: query
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListProductResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    CreateProductRequest:
+      type: object
+      required:
+        - name
+        - price
+        - image
+        - quantity
+      properties:
+        name:
+          type: string
+        price:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: integer
+        image:
+          type: string
+          format: binary
+    UpdateProductRequest:
+      type: object
+      required:
+        - name
+        - price
+        - image
+        - quantity
+      properties:
+        name:
+          type: string
+        price:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: integer
+        image:
+          type: string
+          format: binary
+    CreateProductResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    UpdateProductResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    DeleteProductResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    ProductDetailResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: string
+        description:
+          type: string
+        quantity:
+          type: integer
+        imageUrl:
+          type: string
+        createdAt:
+          type: integer
+    ListProductResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProductDetailResponse'
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
