@@ -46,7 +46,8 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(this.authEntryPointJwt))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.anyRequest().authenticated()
+                        auth
+                                .anyRequest().authenticated()
                 );
 
         http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));

@@ -6,6 +6,8 @@ spring:
     url: jdbc:mysql://localhost:3306/shopping_cart
     username: root
     password: root
+  minio:
+    url: ""
 
   jpa:
     properties:
@@ -16,7 +18,12 @@ spring:
 
 productService:
   app:
-    jwtCookieName: user-service
     jwtSecret: ===========================Spring===========================
     jwtExpirationMS: 86400000
 
+minio:
+  bucketName: productimages
+  defaultFolder: /
+  accessKey: minioadmin
+  secretKey: minioadmin
+  url: http://127.0.0.1:9001

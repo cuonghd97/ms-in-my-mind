@@ -9,17 +9,14 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.security.Key;
 
-@Component
 public class JwtUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${productService.app.jwtSecret}")
-    private static String jwtSecret;
+//    @Value("${productService.app.jwtSecret}")
+    private static final String jwtSecret = "===========================Spring===========================";
 
 
     public static String getJwtFromHeader(HttpServletRequest request) {
