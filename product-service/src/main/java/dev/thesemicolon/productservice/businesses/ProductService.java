@@ -1,13 +1,17 @@
 package dev.thesemicolon.productservice.businesses;
 
-import the.semicolon.productservice.server.model.*;
+import dev.thesemicolon.productservice.commons.models.CreateProductObject;
+import the.semicolon.productservice.server.model.CreateProductResponse;
+import the.semicolon.productservice.server.model.DeleteProductResponse;
+import the.semicolon.productservice.server.model.ProductDetailResponse;
+import the.semicolon.productservice.server.model.UpdateProductRequest;
 
 public interface ProductService {
-    CreateProductResponse createProduct(CreateProductRequest createProductRequest);
+    CreateProductResponse createProduct(CreateProductObject createProductObject) throws Exception;
 
-    UpdateProductRequest updateProduct(UpdateProductRequest updateProductRequest);
+    UpdateProductRequest updateProduct(String productId, UpdateProductRequest updateProductRequest);
 
-    ProductDetailResponse getProductDetail(Long productId);
+    ProductDetailResponse getProductDetail(String productId) throws Exception;
 
-    DeleteProductResponse deleteProduct(Long productId);
+    DeleteProductResponse deleteProduct(String productId);
 }

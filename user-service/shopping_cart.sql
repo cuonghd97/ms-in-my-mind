@@ -8,11 +8,14 @@ USE shopping_cart;
 
 -- Create a table to store products
 CREATE TABLE products (
-id INT PRIMARY KEY,
+id VARCHAR(255) PRIMARY KEY,
 name VARCHAR(255) NOT NULL,
 price DECIMAL(10,2) NOT NULL,
-description TEXT,
-image_url VARCHAR(255)
+descriptions TEXT,
+quantity int,
+image_file_name VARCHAR(255),
+created_at DATETIME,
+updated_at DATETIME
 );
 
 -- Create a table to store users

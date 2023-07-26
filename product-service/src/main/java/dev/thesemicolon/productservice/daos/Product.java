@@ -4,16 +4,18 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "products")
+@EntityListeners(AuditingEntityListener.class)
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "name")
     private String name;
@@ -21,11 +23,14 @@ public class Product {
     @Column(name = "price")
     private Long price;
 
-    @Column(name = "description")
+    @Column(name = "descriptions")
     private String description;
 
-    @Column(name = "image")
+    @Column(name = "image_file_name")
     private String image;
+
+    @Column(name = "quantity")
+    private int quantity;
 
     @Column(name = "created_at")
     @CreatedDate

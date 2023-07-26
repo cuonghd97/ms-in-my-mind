@@ -2,11 +2,14 @@ package dev.thesemicolon.productservice.configs;
 
 
 import io.minio.MinioClient;
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class MinioConfig {
@@ -18,14 +21,23 @@ public class MinioConfig {
     @Value("${minio.secretKey}")
     private String secretKey;
 
-    @Value("${minio.url}")
-    private String minioUrl;
+    @Value("${minio.host}")
+    private String host;
+
+    @Value("${minio.port}")
+    private int port;
 
     @Bean
     public MinioClient minioClient() {
         try {
+            OkHttpClient httpClient = new OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.MINUTES)
+                    .writeTimeout(10, TimeUnit.MINUTES)
+                    .readTimeout(30, TimeUnit.MINUTES)
+                    .build();
             return MinioClient.builder()
-                    .endpoint("127.0.0.1", 9000, false)
+                    .endpoint(this.host, this.port, false)
+                    .httpClient(httpClient)
                     .credentials(this.accessKey, this.secretKey)
                     .build();
         } catch (Exception ex) {

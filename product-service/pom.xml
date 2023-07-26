@@ -160,8 +160,8 @@
                                 <useBeanValidation>true</useBeanValidation>
                                 <performBeanValidation>true</performBeanValidation>
                                 <serializableModel>true</serializableModel>
+                                <unhandledException>true</unhandledException>
                             </configOptions>
-
                             <library>spring-boot</library>
                             <output>${project.build.directory}/generated-sources/remote-openapi</output>
                             <apiPackage>the.semicolon.productservice.server.api</apiPackage>
