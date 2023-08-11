@@ -8,5 +8,5 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 public class UserInfo implements Serializable {
-    Long userID;
+    String userID;
 }

@@ -222,6 +222,12 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      in: header
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     CreateProductRequest:
       type: object
@@ -295,14 +301,22 @@ components:
         createdAt:
           type: integer
     ListProductResponse:
-      type: array
+      type: object
       properties:
-        length:
+        message:
+          type: string
+        listProduct:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDetailResponse'
+        skip:
           type: integer
-      items:
-        $ref: '#/components/schemas/ProductDetailResponse'
+        limit:
+          type: integer
     ErrorResponse:
       type: object
       properties:
         message:
           type: string
+security:
+  - bearerAuth: []

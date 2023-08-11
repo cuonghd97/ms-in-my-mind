@@ -1,6 +1,6 @@
 package dev.thesemicolon.userservice.apis;
 
-import dev.thesemicolon.userservice.businesses.UserService;
+import dev.thesemicolon.userservice.businesses.services.UserService;
 import dev.thesemicolon.userservice.commons.models.UserInfo;
 import dev.thesemicolon.userservice.dtos.responses.UserDetailResponse;
 import org.slf4j.Logger;

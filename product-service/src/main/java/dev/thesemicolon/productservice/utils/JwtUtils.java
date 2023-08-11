@@ -13,40 +13,43 @@ import org.slf4j.LoggerFactory;
 import java.security.Key;
 
 public class JwtUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
 
-//    @Value("${productService.app.jwtSecret}")
-    private static final String jwtSecret = "===========================Spring===========================";
+  //    @Value("${productService.app.jwtSecret}")
+  private static final String jwtSecret =
+      "===========================Spring===========================";
 
+  public static String getJwtFromHeader(HttpServletRequest request) {
+    return request.getHeader("Authorization");
+  }
 
-    public static String getJwtFromHeader(HttpServletRequest request) {
-        return request.getHeader("Authorization");
+  public static boolean validateJwtToken(String authToken) {
+    try {
+      Jwts.parserBuilder().setSigningKey(JwtUtils.getKey()).build().parse(authToken);
+      return true;
+    } catch (MalformedJwtException e) {
+      LOGGER.error("Invalid JWT token: {}", e.getMessage());
+    } catch (ExpiredJwtException e) {
+      LOGGER.error("JWT token is expired: {}", e.getMessage());
+    } catch (UnsupportedJwtException e) {
+      LOGGER.error("JWT token is unsupported: {}", e.getMessage());
+    } catch (IllegalArgumentException e) {
+      LOGGER.error("JWT claims string is empty: {}", e.getMessage());
     }
 
+    return false;
+  }
 
-    public static boolean validateJwtToken(String authToken) {
-        try {
-            Jwts.parserBuilder().setSigningKey(JwtUtils.getKey()).build().parse(authToken);
-            return true;
-        } catch (MalformedJwtException e) {
-            LOGGER.error("Invalid JWT token: {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            LOGGER.error("JWT token is expired: {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            LOGGER.error("JWT token is unsupported: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            LOGGER.error("JWT claims string is empty: {}", e.getMessage());
-        }
+  public static String getUserIdFromToken(String token) {
+    return Jwts.parserBuilder()
+        .setSigningKey(JwtUtils.getKey())
+        .build()
+        .parseClaimsJws(token)
+        .getBody()
+        .getSubject();
+  }
 
-        return false;
-    }
-
-    public static Long getUserIdFromToken(String token) {
-        return Long.valueOf(Jwts.parserBuilder().setSigningKey(JwtUtils.getKey()).build()
-                .parseClaimsJws(token).getBody().getSubject());
-    }
-
-    private static Key getKey() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(JwtUtils.jwtSecret));
-    }
+  private static Key getKey() {
+    return Keys.hmacShaKeyFor(Decoders.BASE64.decode(JwtUtils.jwtSecret));
+  }
 }

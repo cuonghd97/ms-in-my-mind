@@ -21,15 +21,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class WebSecurityConfig {
-    @Autowired
-    private AuthEntryPointJwt authEntryPointJwt;
+
+  @Autowired
+  private AuthEntryPointJwt authEntryPointJwt;
 
 
-
-    @Bean
-    public AuthTokenFilter authenticationTokenFilter() {
-        return new AuthTokenFilter();
-    }
+  @Bean
+  public AuthTokenFilter authenticationTokenFilter() {
+    return new AuthTokenFilter();
+  }
 
 //    @Bean
 //    public DaoAuthenticationProvider authenticationProvider() {
@@ -39,31 +39,34 @@ public class WebSecurityConfig {
 //        return authProvider;
 //    }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig)
+      throws Exception {
+    return authConfig.getAuthenticationManager();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(this.authEntryPointJwt))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/authentication/**").permitAll()
-                                .requestMatchers("/api/user/**").permitAll()
-                                .anyRequest().authenticated()
-                );
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.csrf(AbstractHttpConfigurer::disable)
+        .exceptionHandling(exception -> exception.authenticationEntryPoint(this.authEntryPointJwt))
+        .sessionManagement(
+            session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth ->
+            auth.requestMatchers("/api/authentication/**").permitAll()
+                .requestMatchers("/api/user/**").permitAll()
+                .anyRequest().authenticated()
+        );
 
-        http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
+    http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
 //        http.authenticationProvider(this.authenticationProvider());
-        http.addFilterBefore(this.authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(this.authenticationTokenFilter(),
+        UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+    return http.build();
+  }
 }

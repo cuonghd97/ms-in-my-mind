@@ -1,6 +1,6 @@
-package dev.thesemicolon.userservice.businesses.impl;
+package dev.thesemicolon.userservice.businesses.services.impl;
 
-import dev.thesemicolon.userservice.businesses.UserService;
+import dev.thesemicolon.userservice.businesses.services.UserService;
 import dev.thesemicolon.userservice.commons.exceptions.BusinessException;
 import dev.thesemicolon.userservice.daos.User;
 import dev.thesemicolon.userservice.dtos.responses.UserDetailResponse;
@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
     @Override
-    public UserDetailResponse getUserById(Long userId) throws BusinessException {
+    public UserDetailResponse getUserById(String userId) throws BusinessException {
         User user = this.userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException("user not found"));
 

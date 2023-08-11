@@ -1,0 +1,330 @@
+openapi: 3.0.3
+info:
+  title: Order Service
+  description: Order Service
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  /cart:
+    post:
+      summary: Create cart
+      operationId: creatCart
+      tags:
+        - Cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCartRequest'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCartResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /cart/{cartId}:
+    get:
+      summary: Get cart detail
+      operationId: getCartDetail
+      tags:
+        - Cart
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          schema:
+            type: string
+            default: ""
+          description: "id of cart"
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartDetailResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update cart
+      operationId: updateCart
+      tags:
+        - Cart
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: "id of cart"
+          schema:
+            type: string
+            default: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCartRequest'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCartResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete cart
+      operationId: deleteCart
+      tags:
+        - Cart
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: "id of cart"
+          schema:
+            type: string
+            default: ""
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCartResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /list-cart:
+    get:
+      summary: Get list cart
+      operationId: getListCart
+      tags:
+        - Cart
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          required: true
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCartResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /place-order:
+    get:
+      summary: Place an order
+      operationId: placeOrder
+      tags:
+        - Order
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+            default: ""
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          required: true
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCartResponse'
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+components:
+  schemas:
+    CreateCartRequest:
+      type: object
+      required:
+        - productId
+        - quantity
+      properties:
+        productId:
+          type: string
+        quantity:
+          type: number
+          format: int64
+    UpdateCartRequest:
+      type: object
+      required:
+        - quantity
+      properties:
+        quantity:
+          type: integer
+    CreateCartResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    UpdateCartResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    DeleteCartResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    CartDetailResponse:
+      type: object
+      properties:
+        productId:
+          type: string
+        productName:
+          type: string
+        quantity:
+          type: integer
+        price:
+          type: number
+          format: int64
+        createdAt:
+          type: number
+          format: int64
+    ListCartResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        listCart:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartDetailResponse'
+        skip:
+          type: integer
+        limit:
+          type: integer
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string

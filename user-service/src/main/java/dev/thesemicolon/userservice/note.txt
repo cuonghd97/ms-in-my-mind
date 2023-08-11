@@ -1,0 +1,13 @@
+# Cxview Note
+
+Database
+
+- Thiết kế không tối ưu dẫn đến tốc độ query chậm
+
+Backend: 
+
+- Các service dùng ngôn ngữ không thống nhất (Golang, Python, NodeJS) dẫn đến nhiều lỗi ví dụ thành thạo ngôn ngữ python nhưng các ngôn ngữ khác gặp vấn đề thì sẽ mất nhiều thời gian để nghiên cứu và xử lý
+- Thiết kế hệ thống không chuẩn microservice
+- Thiết kế các service không hợp lý ví dụ gộp phần consume dữ liệu kafka và báo cáo vào 1 service khi có nhiều message kafka cần scale service để consume, các api báo cáo cũng được scale lên mặc dù không cần thiết → phân bổ tài nguyên không hợp lý
+- Các service consume message kafka hiện tại chỉ consume theo 1 partition nên tốc độ consume sẽ chậm → cần cấu hình lại kafka thành nhiều partition, group, các service consume tăng luồng xử lý (cần thử nghiệm).
+- Các nghiệp vụ quản lý box, cam không thân thiện với người sử dụng

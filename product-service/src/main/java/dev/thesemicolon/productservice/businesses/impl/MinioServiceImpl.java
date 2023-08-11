@@ -4,6 +4,7 @@ import dev.thesemicolon.productservice.businesses.MinioService;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.RemoveObjectArgs;
 import io.minio.http.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,5 +58,12 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
-
+    @Override
+    public void removeFile(String fileName) throws Exception {
+        minioClient.removeObject(RemoveObjectArgs.builder()
+                .bucket(this.bucketName)
+                .object(fileName)
+                .build()
+        );
+    }
 }

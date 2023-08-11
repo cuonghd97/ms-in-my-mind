@@ -154,6 +154,7 @@
                             <inputSpec>
                                 https://raw.githubusercontent.com/cuonghd97/ms-in-my-mind/main/product-service/product-service.yaml
                             </inputSpec>
+
                             <generatorName>spring</generatorName>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
@@ -161,6 +162,7 @@
                                 <performBeanValidation>true</performBeanValidation>
                                 <serializableModel>true</serializableModel>
                                 <unhandledException>true</unhandledException>
+                                <useSwaggerUI>true</useSwaggerUI>
                             </configOptions>
                             <library>spring-boot</library>
                             <output>${project.build.directory}/generated-sources/remote-openapi</output>

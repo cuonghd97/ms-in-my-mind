@@ -2,7 +2,9 @@ package dev.thesemicolon.productservice.businesses.impl;
 
 import dev.thesemicolon.productservice.businesses.MinioService;
 import dev.thesemicolon.productservice.businesses.ProductService;
+import dev.thesemicolon.productservice.commons.exceptions.BusinessException;
 import dev.thesemicolon.productservice.commons.models.CreateProductObject;
+import dev.thesemicolon.productservice.commons.models.UpdateProductObject;
 import dev.thesemicolon.productservice.daos.Product;
 import dev.thesemicolon.productservice.repositories.ProductRepository;
 import org.apache.commons.io.FilenameUtils;
@@ -14,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import the.semicolon.productservice.server.model.CreateProductResponse;
 import the.semicolon.productservice.server.model.DeleteProductResponse;
 import the.semicolon.productservice.server.model.ProductDetailResponse;
-import the.semicolon.productservice.server.model.UpdateProductRequest;
+import the.semicolon.productservice.server.model.UpdateProductResponse;
 
 import java.math.BigDecimal;
 import java.time.ZoneOffset;
@@ -45,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(createProductObject.getDescription());
         product.setQuantity(createProductObject.getQuantity());
         product.setImage(fileName);
-        System.out.println(createProductObject.getImage().getContentType());
+
         this.productRepository.save(product);
         this.minioService.uploadFile(
                 fileName,
@@ -57,14 +59,32 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public UpdateProductRequest updateProduct(String productId, UpdateProductRequest updateProductRequest) {
-        return null;
+    public UpdateProductResponse updateProduct(String productId, UpdateProductObject updateProductObject) throws Exception {
+        String fileName = buildFileName(productId, FilenameUtils.getExtension(updateProductObject.getImage().getOriginalFilename()));
+
+        Product product = this.productRepository.findById(productId)
+                .orElseThrow(() -> new BusinessException("Product not found"));
+        product.setImage(fileName);
+        product.setName(updateProductObject.getName());
+        product.setPrice(updateProductObject.getPrice().longValue());
+        product.setDescription(updateProductObject.getDescription());
+        product.setQuantity(updateProductObject.getQuantity());
+
+        this.productRepository.save(product);
+        this.minioService.uploadFile(
+                fileName,
+                updateProductObject.getImage().getInputStream(),
+                updateProductObject.getImage().getContentType()
+        );
+        LOGGER.info("Update product success");
+        return new UpdateProductResponse().message("Update product success");
     }
+
 
     @Override
     public ProductDetailResponse getProductDetail(String productId) throws Exception {
         Product product = this.productRepository.findById(productId)
-                .orElseThrow(() -> new Exception("product not found"));
+                .orElseThrow(() -> new BusinessException("product not found"));
         String imagePresignedUrl = this.minioService.getPresignedUrl(product.getImage());
 
         return new ProductDetailResponse()
@@ -77,8 +97,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public DeleteProductResponse deleteProduct(String productId) {
-        return null;
+    @Transactional
+    public DeleteProductResponse deleteProduct(String productId) throws Exception {
+        Product product = this.productRepository
+                .findById(productId)
+                .orElseThrow(() -> new BusinessException("Product not found"));
+        this.productRepository.delete(product);
+        this.minioService.removeFile(product.getImage());
+        return new DeleteProductResponse().message("Delete product success");
     }
 
     private static String buildFileName(String productId, String extension) {

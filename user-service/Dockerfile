@@ -1,0 +1,1 @@
+FROM eclipse-temurin:17.0.8_7-jre-focal
