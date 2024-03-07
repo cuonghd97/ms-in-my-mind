@@ -1,19 +1,19 @@
 -- Create a database named shopping_cart
-CREATE DATABASE IF NOT EXISTS shopping_cart;
+CREATE DATABASE IF NOT EXISTS shopping_cart; -- for mysql
 
 -- Use the shopping_cart database
-USE shopping_cart;
+USE shopping_cart; -- for mysql
 
 -- Create a table to store products
-CREATE TABLE IF NOT EXISTS products (
+CREATE TABLE products (
     id VARCHAR(40) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    descriptions TEXT,
-    quantity int,
+    price DECIMAL(*) NOT NULL,
+    descriptions VARCHAR(255),
+    quantity INT,
     image_file_name VARCHAR(255),
-    created_at DATETIME,
-    updated_at DATETIME
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
 );
 
 -- Create a table to store users

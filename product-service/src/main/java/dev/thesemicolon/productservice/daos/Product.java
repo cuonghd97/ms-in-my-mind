@@ -24,6 +24,8 @@ public class Product {
     private Long price;
 
     @Column(name = "descriptions")
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     private String description;
 
     @Column(name = "image_file_name")
