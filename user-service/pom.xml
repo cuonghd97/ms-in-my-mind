@@ -147,7 +147,7 @@
 							https://raw.githubusercontent.com/cuonghd97/ms-in-my-mind/main/user-service/user-service.yaml-->
 							<!--                            </inputSpec>-->
 							<inputSpec>
-								E:\Projects\ms-in-my-mind\user-service\user-service.yaml
+								/Users/cuong/Documents/Projects/ms-in-my-mind/user-service/user-service.yaml
 							</inputSpec>
 							<generatorName>spring</generatorName>
 							<configOptions>

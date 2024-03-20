@@ -1,13 +1,33 @@
-# Cxview Note
+server:
+  port: 8110
 
-Database
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@//192.168.56.1:1521/xe
+    username: C##CUONG
+    password: password
+    driver-class-name: oracle.jdbc.OracleDriver
+  hikari:
+    minimumIdle: 5
+    maximumPoolSize: 20
+    idleTimeout: 30000
+    maxLifetime: 2000000
+    connectionTimeout: 30000
+    poolName: HikariPoolBooks
 
-- Thiết kế không tối ưu dẫn đến tốc độ query chậm
+  jpa:
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    hibernate:
+      use-new-id-generator-mappings: false
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: false
+    show-sql: true
 
-Backend: 
+userService:
+  app:
+    jwtCookieName: user-service
+    jwtSecret: ===========================Spring===========================
+    jwtExpirationMS: 86400000
 
-- Các service dùng ngôn ngữ không thống nhất (Golang, Python, NodeJS) dẫn đến nhiều lỗi ví dụ thành thạo ngôn ngữ python nhưng các ngôn ngữ khác gặp vấn đề thì sẽ mất nhiều thời gian để nghiên cứu và xử lý
-- Thiết kế hệ thống không chuẩn microservice
-- Thiết kế các service không hợp lý ví dụ gộp phần consume dữ liệu kafka và báo cáo vào 1 service khi có nhiều message kafka cần scale service để consume, các api báo cáo cũng được scale lên mặc dù không cần thiết → phân bổ tài nguyên không hợp lý
-- Các service consume message kafka hiện tại chỉ consume theo 1 partition nên tốc độ consume sẽ chậm → cần cấu hình lại kafka thành nhiều partition, group, các service consume tăng luồng xử lý (cần thử nghiệm).
-- Các nghiệp vụ quản lý box, cam không thân thiện với người sử dụng

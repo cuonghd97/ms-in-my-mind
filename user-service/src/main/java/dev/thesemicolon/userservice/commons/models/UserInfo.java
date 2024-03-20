@@ -8,5 +8,6 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 public class UserInfo implements Serializable {
-    String userID;
+    private static final long serialVersionUID = 1L;
+	String userID;
 }
